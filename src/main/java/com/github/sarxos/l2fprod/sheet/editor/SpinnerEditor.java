@@ -17,10 +17,16 @@
  */
 package com.github.sarxos.l2fprod.sheet.editor;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JSpinner.NumberEditor;
 import javax.swing.JTextField;
@@ -35,18 +41,49 @@ import com.l2fprod.common.beans.editor.AbstractPropertyEditor;
  */
 public class SpinnerEditor extends AbstractPropertyEditor {
 
+	private final class ResizeLayout extends BorderLayout {
+
+		private static final long serialVersionUID = -1227060876626317222L;
+
+		public ResizeLayout() {
+			super(0, 0);
+		}
+
+		@Override
+		public void layoutContainer(Container target) {
+			synchronized (target.getTreeLock()) {
+				for (int i = 0; i < target.getComponentCount(); i++) {
+					Component c = target.getComponent(i);
+					Point p = c.getLocation();
+					int dx = Math.abs(p.x);
+					int dy = Math.abs(p.y);
+					int w = target.getWidth();
+					int h = target.getHeight();
+					c.setBounds(p.x, p.y, w + 2 * dx, h + 2 * dy);
+				}
+			}
+		}
+	}
+
 	private Object oldValue;
+
+	protected JSpinner spinner = null;
+	protected JPanel panel = null;
 
 	public SpinnerEditor() {
 
-		final JSpinner spinner = new JSpinner() {
+		spinner = new JSpinner() {
 
 			private static final long serialVersionUID = 6795837270307274730L;
 
 			@Override
 			public void setValue(Object value) {
-				oldValue = getValue();
 				super.setValue(value);
+			}
+
+			@Override
+			public void paint(Graphics g) {
+				super.paint(g);
 			}
 		};
 
@@ -54,28 +91,49 @@ public class SpinnerEditor extends AbstractPropertyEditor {
 
 			@Override
 			public void focusLost(FocusEvent e) {
-
-				Object value = spinner.getValue();
-				SpinnerEditor.this.firePropertyChange(oldValue, value);
+				SpinnerEditor.this.firePropertyChange(oldValue, spinner.getValue());
 			}
 
 			@Override
 			public void focusGained(FocusEvent e) {
-				// do nothing
 			}
 		});
 
 		spinner.setBorder(BorderFactory.createEmptyBorder());
 		spinner.setOpaque(false);
 		spinner.setFont(UIManager.getFont("Table.font"));
+		spinner.setLocation(new Point(-1, -1));
 
-		editor = spinner;
+		panel = new JPanel();
+
+		if (panel.getUI().getClass().getSimpleName().equals("SubstancePanelUI")) {
+			panel.setLayout(new ResizeLayout());
+		} else {
+			panel.setLayout(new BorderLayout());
+		}
+
+		panel.add(spinner);
+		panel.setBorder(null);
+		panel.setFocusCycleRoot(true);
+		panel.addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusLost(FocusEvent e) {
+			}
+
+			@Override
+			public void focusGained(FocusEvent e) {
+				spinner.requestFocus();
+			}
+		});
+
+		editor = panel;
 
 		formatSpinner();
 	}
 
 	protected void formatSpinner() {
-		NumberEditor ne = (NumberEditor) (((JSpinner) editor).getEditor());
+		NumberEditor ne = (NumberEditor) spinner.getEditor();
 		ne.setFont(UIManager.getFont("Table.font"));
 		ne.getTextField().setHorizontalAlignment(JTextField.LEFT);
 		ne.getTextField().setAlignmentX(JTextField.LEFT_ALIGNMENT);
@@ -84,7 +142,7 @@ public class SpinnerEditor extends AbstractPropertyEditor {
 
 	@Override
 	public Object getValue() {
-		Object value = ((JSpinner) editor).getValue();
+		Object value = spinner.getValue();
 		if (value instanceof ObjectWrapper) {
 			return ((ObjectWrapper) value).value;
 		} else {
@@ -94,9 +152,8 @@ public class SpinnerEditor extends AbstractPropertyEditor {
 
 	@Override
 	public void setValue(Object value) {
-		JSpinner spinner = (JSpinner) editor;
 		if (value != spinner.getValue()) {
-			((JSpinner) editor).setValue(value);
+			spinner.setValue(value);
 		}
 	}
 

@@ -3,7 +3,6 @@ package com.github.sarxos.l2fprod.sheet.editor;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 
@@ -66,7 +65,6 @@ public class NumberEditor extends SpinnerEditor {
 		}
 
 		SpinnerModel model = new SpinnerNumberModel(start, min, max, step);
-		JSpinner spinner = (JSpinner) editor;
 
 		spinner.setModel(model);
 

@@ -1,12 +1,15 @@
 package com.github.sarxos.l2fprod.sheet.editor;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 
+import com.github.sarxos.l2fprod.sheet.ResizeLayout;
 import com.l2fprod.common.beans.editor.AbstractPropertyEditor;
+import com.l2fprod.common.propertysheet.Property;
 
 
 /**
@@ -15,28 +18,43 @@ import com.l2fprod.common.beans.editor.AbstractPropertyEditor;
 public class BooleanEditor extends AbstractPropertyEditor {
 
 	private JCheckBox checkbox = null;
+	private JPanel panel = null;
 
-	public BooleanEditor() {
+	public BooleanEditor(Object property) {
+
+		Property prop = (Property) property;
 
 		checkbox = new JCheckBox();
 
-		checkbox.setOpaque(false);
-		checkbox.setBounds(-3, -3, 1000, 1000);
-		checkbox.addActionListener(new ActionListener() {
+		checkbox.setSelected((Boolean) prop.getValue());
+		checkbox.setOpaque(true);
+		checkbox.setLocation(-3, 0);
+		checkbox.setFocusable(false);
+		checkbox.setBackground(UIManager.getColor("Table.selectionBackground"));
+		checkbox.setForeground(UIManager.getColor("Table.selectionForeground"));
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				firePropertyChange(
-				checkbox.isSelected() ? Boolean.FALSE : Boolean.TRUE,
-				checkbox.isSelected() ? Boolean.TRUE : Boolean.FALSE);
-				checkbox.transferFocus();
-			}
-		});
-
-		JPanel panel = new JPanel();
-		panel.setLayout(null);
+		panel = new JPanel();
+		panel.setLayout(new ResizeLayout());
 		panel.setBorder(null);
 		panel.add(checkbox);
+		panel.setFocusCycleRoot(true);
+		panel.setBackground(UIManager.getColor("Table.selectionBackground"));
+		panel.setForeground(UIManager.getColor("Table.selectionForeground"));
+		panel.setOpaque(true);
+		panel.addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				Object older = checkbox.isSelected() ? Boolean.FALSE : Boolean.TRUE;
+				Object newer = checkbox.isSelected() ? Boolean.TRUE : Boolean.FALSE;
+				firePropertyChange(older, newer);
+			}
+
+			@Override
+			public void focusGained(FocusEvent e) {
+				checkbox.requestFocus();
+			}
+		});
 
 		this.editor = panel;
 	}

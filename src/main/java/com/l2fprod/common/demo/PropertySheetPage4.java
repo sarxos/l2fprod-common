@@ -201,7 +201,24 @@ public class PropertySheetPage4 extends JPanel {
 
 	}
 
+	Beanus bean = new Beanus();
+
 	public PropertySheetPage4() {
+
+		new Thread() {
+
+			@Override
+			public void run() {
+				while (true) {
+					System.out.println(bean.isBoolValue());
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			};
+		}.start();
 
 		setLayout(LookAndFeelTweaks.createVerticalPercentLayout());
 
@@ -210,8 +227,6 @@ public class PropertySheetPage4 extends JPanel {
 		LookAndFeelTweaks.makeMultilineLabel(message);
 
 		add(message);
-
-		Beanus bean = new Beanus();
 
 		PropertySheetPanel sheet = new PropertySheetPanel();
 		sheet.setMode(PropertySheet.VIEW_AS_CATEGORIES);

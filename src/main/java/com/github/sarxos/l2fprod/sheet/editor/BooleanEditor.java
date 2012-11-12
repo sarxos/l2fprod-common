@@ -1,12 +1,15 @@
 package com.github.sarxos.l2fprod.sheet.editor;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
+import javax.swing.AbstractAction;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
+import com.github.sarxos.l2fprod.sheet.I18N;
 import com.github.sarxos.l2fprod.sheet.ResizeLayout;
 import com.l2fprod.common.beans.editor.AbstractPropertyEditor;
 import com.l2fprod.common.propertysheet.Property;
@@ -26,12 +29,24 @@ public class BooleanEditor extends AbstractPropertyEditor {
 
 		checkbox = new JCheckBox();
 
-		checkbox.setSelected((Boolean) prop.getValue());
+		boolean selected = Boolean.TRUE.equals(prop.getValue());
+
+		checkbox.setSelected(selected);
+		checkbox.setText(selected ? I18N.TRUE : I18N.FALSE);
 		checkbox.setOpaque(true);
 		checkbox.setLocation(-3, 0);
 		checkbox.setFocusable(false);
 		checkbox.setBackground(UIManager.getColor("Table.selectionBackground"));
 		checkbox.setForeground(UIManager.getColor("Table.selectionForeground"));
+		checkbox.setAction(new AbstractAction() {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				checkbox.setText(checkbox.isSelected() ? I18N.TRUE : I18N.FALSE);
+			}
+		});
 
 		panel = new JPanel();
 		panel.setLayout(new ResizeLayout());
@@ -66,7 +81,9 @@ public class BooleanEditor extends AbstractPropertyEditor {
 
 	@Override
 	public void setValue(Object value) {
-		checkbox.setSelected(Boolean.TRUE.equals(value));
+		boolean selected = Boolean.TRUE.equals(value);
+		checkbox.setSelected(selected);
+		checkbox.setText(selected ? I18N.TRUE : I18N.FALSE);
 	}
 
 }

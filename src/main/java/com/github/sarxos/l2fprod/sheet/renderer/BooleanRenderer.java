@@ -4,9 +4,12 @@ import java.awt.Component;
 import java.io.Serializable;
 
 import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
+
+import com.github.sarxos.l2fprod.sheet.I18N;
 
 
 /**
@@ -17,11 +20,13 @@ public class BooleanRenderer extends JPanel implements TableCellRenderer, Serial
 	private static final long serialVersionUID = 8848514762273327844L;
 
 	private JCheckBox checkbox = null;
+	private JLabel label = null;
 
 	public BooleanRenderer() {
 
 		checkbox = new JCheckBox();
-		checkbox.setBounds(-3, -3, 20, 20);
+		checkbox.setBounds(-3, 0, 200, 15);
+		checkbox.setText("");
 
 		setBorder(null);
 		setLayout(null);
@@ -49,7 +54,10 @@ public class BooleanRenderer extends JPanel implements TableCellRenderer, Serial
 			checkbox.setForeground(table.getForeground());
 		}
 
-		checkbox.setSelected(Boolean.TRUE.equals(value));
+		boolean selected = Boolean.TRUE.equals(value);
+
+		checkbox.setSelected(selected);
+		checkbox.setText(selected ? I18N.TRUE : I18N.FALSE);
 
 		return this;
 	}

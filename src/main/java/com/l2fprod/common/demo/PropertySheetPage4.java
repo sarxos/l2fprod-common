@@ -205,21 +205,6 @@ public class PropertySheetPage4 extends JPanel {
 
 	public PropertySheetPage4() {
 
-		new Thread() {
-
-			@Override
-			public void run() {
-				while (true) {
-					System.out.println(bean.isBoolValue());
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-			};
-		}.start();
-
 		setLayout(LookAndFeelTweaks.createVerticalPercentLayout());
 
 		JTextArea message = new JTextArea();

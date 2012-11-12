@@ -17,12 +17,7 @@
  */
 package com.l2fprod.common.swing.renderer;
 
-import com.l2fprod.common.model.DefaultObjectRenderer;
-import com.l2fprod.common.model.ObjectRenderer;
-
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.SystemColor;
 
 import javax.swing.Icon;
 import javax.swing.JList;
@@ -30,93 +25,67 @@ import javax.swing.JTable;
 import javax.swing.ListCellRenderer;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import com.l2fprod.common.model.DefaultObjectRenderer;
+import com.l2fprod.common.model.ObjectRenderer;
+
+
 /**
  * DefaultCellRenderer.<br>
- *
+ * 
  */
-public class DefaultCellRenderer
-  extends DefaultTableCellRenderer
-  implements ListCellRenderer {
+public class DefaultCellRenderer extends DefaultTableCellRenderer implements ListCellRenderer {
+
+	private static final long serialVersionUID = -6142292027983690799L;
 
 	private ObjectRenderer objectRenderer = new DefaultObjectRenderer();
 
-	private Color oddBackgroundColor = SystemColor.window;
-	private Color evenBackgroundColor = SystemColor.window;
-  private boolean showOddAndEvenRows = true;
-	
-	public void setOddBackgroundColor(Color c) {
-	  oddBackgroundColor = c;
-	}
-	
-	public void setEvenBackgroundColor(Color c) {
-	  evenBackgroundColor = c;
-	}
-	
-	public void setShowOddAndEvenRows(boolean b) {
-	  showOddAndEvenRows = b;
-	}
-	
-	public Component getListCellRendererComponent(JList list, Object value,
-	  int index, boolean isSelected, boolean cellHasFocus) {
-	  	
-	  setBorder(null);
-	  
-		if (isSelected) {
+	@Override
+	public Component getListCellRendererComponent(JList list, Object value, int index, boolean selected, boolean focus) {
+
+		setBorder(null);
+
+		if (selected) {
 			setBackground(list.getSelectionBackground());
 			setForeground(list.getSelectionForeground());
 		} else {
 			setBackground(list.getBackground());
 			setForeground(list.getForeground());
 		}
-		
-    setValue(value);
-    
-		return this;
-	}
-	
-	public Component getTableCellRendererComponent(
-		JTable table,
-		Object value,
-		boolean isSelected,
-		boolean hasFocus,
-		int row,
-		int column) {
-		super.getTableCellRendererComponent(
-			table,
-			value,
-			isSelected,
-			hasFocus,
-			row,
-			column);
 
-		if (showOddAndEvenRows && !isSelected) {
-		  if (row % 2 == 0) {
-		    setBackground(oddBackgroundColor);
-		  } else {
-		    setBackground(evenBackgroundColor);
-		  }
-		}
-		
-    setValue(value);
-    
+		setValue(value);
+
 		return this;
 	}
 
-  public void setValue(Object value) {
-    String text = convertToString(value);
-    Icon icon = convertToIcon(value);
-    
-    setText(text==null?"":text);
-    setIcon(icon);
-    setDisabledIcon(icon);
-  }
-  
-  protected String convertToString(Object value) {
-    return objectRenderer.getText(value);    
-  }
-  
-  protected Icon convertToIcon(Object value) {
-    return null;
-  }
-  
+	@Override
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean selected, boolean focus, int row, int column) {
+		super.getTableCellRendererComponent(table, value, selected, focus, row, column);
+		setValue(value);
+		return this;
+	}
+
+	@Override
+	public void setValue(Object value) {
+		String text = convertToString(value);
+		Icon icon = convertToIcon(value);
+
+		setText(text == null ? "" : text);
+		setIcon(icon);
+		setDisabledIcon(icon);
+	}
+
+	/**
+	 * Converts cell value to string.
+	 * 
+	 * @param value the value to be displayed in cell
+	 * @return String representation of given value
+	 */
+	protected String convertToString(Object value) {
+		return objectRenderer.getText(value);
+	}
+
+	protected Icon convertToIcon(Object value) {
+		return null;
+	}
+
 }

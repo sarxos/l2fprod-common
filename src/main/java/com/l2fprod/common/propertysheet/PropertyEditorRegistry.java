@@ -34,6 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.github.sarxos.l2fprod.sheet.editor.BooleanEditor;
+import com.github.sarxos.l2fprod.sheet.editor.CharacterEditor;
 import com.github.sarxos.l2fprod.sheet.editor.DimensionEditor;
 import com.github.sarxos.l2fprod.sheet.editor.EnumEditor;
 import com.github.sarxos.l2fprod.sheet.editor.NumberEditor;
@@ -59,6 +60,7 @@ public class PropertyEditorRegistry implements PropertyEditorFactory {
 		registerDefaults();
 	}
 
+	@Override
 	public PropertyEditor createPropertyEditor(Property property) {
 		return getEditor(property);
 	}
@@ -221,6 +223,9 @@ public class PropertyEditorRegistry implements PropertyEditorFactory {
 		// our editors
 		registerEditor(String.class, StringPropertyEditor.class);
 
+		registerEditor(char.class, CharacterEditor.class);
+		registerEditor(Character.class, CharacterEditor.class);
+
 		registerEditor(double.class, NumberEditor.class);
 		registerEditor(Double.class, NumberEditor.class);
 		registerEditor(float.class, NumberEditor.class);
@@ -256,5 +261,4 @@ public class PropertyEditorRegistry implements PropertyEditorFactory {
 		}
 
 	}
-
 }

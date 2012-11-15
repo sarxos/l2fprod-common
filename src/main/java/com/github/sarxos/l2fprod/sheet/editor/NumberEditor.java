@@ -9,6 +9,11 @@ import javax.swing.SpinnerNumberModel;
 import com.l2fprod.common.propertysheet.Property;
 
 
+/**
+ * Number editor.
+ * 
+ * @author Bartosz Firyn (SarXos)
+ */
 public class NumberEditor extends SpinnerEditor {
 
 	public NumberEditor(Object property) {

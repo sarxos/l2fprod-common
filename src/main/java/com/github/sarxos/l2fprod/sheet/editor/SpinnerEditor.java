@@ -1,32 +1,19 @@
-/**
- * @PROJECT.FULLNAME@ @VERSION@ License.
- *
- * Copyright @YEAR@ L2FProd.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.github.sarxos.l2fprod.sheet.editor;
 
 import java.awt.BorderLayout;
+import java.awt.ContainerOrderFocusTraversalPolicy;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
-import javax.swing.JSpinner.NumberEditor;
+import javax.swing.JSpinner.DefaultEditor;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
@@ -35,10 +22,63 @@ import com.l2fprod.common.beans.editor.AbstractPropertyEditor;
 
 
 /**
- * ComboBoxPropertyEditor. <br>
+ * Editor containing spinner inside. It can be used for various models such as
+ * date, numbers, chars, etc.
  * 
+ * @author Bartosz Firyn (SarXos)
  */
 public class SpinnerEditor extends AbstractPropertyEditor {
+
+	protected class ContainerPanel extends JPanel implements KeyListener, FocusListener {
+
+		private static final long serialVersionUID = 11429722436474288L;
+
+		private JComponent component = null;
+
+		public ContainerPanel(JComponent component) {
+
+			this.component = component;
+
+			addKeyListener(this);
+			addFocusListener(this);
+
+			setBorder(null);
+			setFocusCycleRoot(true);
+			setFocusTraversalPolicy(new ContainerOrderFocusTraversalPolicy());
+
+			add(component);
+
+			if (getUI().getClass().getSimpleName().equals("SubstancePanelUI")) {
+				setLayout(new ResizeLayout());
+			} else {
+				setLayout(new BorderLayout());
+			}
+		}
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			component.dispatchEvent(e);
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			component.dispatchEvent(e);
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			component.dispatchEvent(e);
+		}
+
+		@Override
+		public void focusGained(FocusEvent e) {
+			component.transferFocusDownCycle();
+		}
+
+		@Override
+		public void focusLost(FocusEvent e) {
+		}
+	}
 
 	private Object oldValue;
 
@@ -66,6 +106,7 @@ public class SpinnerEditor extends AbstractPropertyEditor {
 
 			@Override
 			public void focusLost(FocusEvent e) {
+				System.out.println("spinner lost");
 				SpinnerEditor.this.firePropertyChange(oldValue, spinner.getValue());
 			}
 
@@ -79,36 +120,13 @@ public class SpinnerEditor extends AbstractPropertyEditor {
 		spinner.setFont(UIManager.getFont("Table.font"));
 		spinner.setLocation(new Point(-1, -1));
 
-		panel = new JPanel();
-
-		if (panel.getUI().getClass().getSimpleName().equals("SubstancePanelUI")) {
-			panel.setLayout(new ResizeLayout());
-		} else {
-			panel.setLayout(new BorderLayout());
-		}
-
-		panel.add(spinner);
-		panel.setBorder(null);
-		panel.setFocusCycleRoot(true);
-		panel.addFocusListener(new FocusListener() {
-
-			@Override
-			public void focusLost(FocusEvent e) {
-			}
-
-			@Override
-			public void focusGained(FocusEvent e) {
-				spinner.requestFocus();
-			}
-		});
-
-		editor = panel;
+		editor = new ContainerPanel(spinner);
 
 		formatSpinner();
 	}
 
 	protected void formatSpinner() {
-		NumberEditor ne = (NumberEditor) spinner.getEditor();
+		DefaultEditor ne = (DefaultEditor) spinner.getEditor();
 		ne.setFont(UIManager.getFont("Table.font"));
 		ne.getTextField().setHorizontalAlignment(JTextField.LEFT);
 		ne.getTextField().setAlignmentX(JTextField.LEFT_ALIGNMENT);

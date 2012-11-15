@@ -85,6 +85,9 @@ public class PropertySheetPage4 extends JPanel {
 		@PropertyInfo(name = "Double Value", expert = true, category = PRIMITIVES)
 		private double doubleValue = 4.345;
 
+		@PropertyInfo(name = "Character", category = PRIMITIVES)
+		private char character = 'a';
+
 		@PropertyInfo(name = "Color Value", category = OBJECTS)
 		private Color colorValue = Color.RED;
 
@@ -199,6 +202,13 @@ public class PropertySheetPage4 extends JPanel {
 			this.enumValue = enumValue;
 		}
 
+		public void setCharacter(char character) {
+			this.character = character;
+		}
+
+		public char getCharacter() {
+			return character;
+		}
 	}
 
 	Beanus bean = new Beanus();

@@ -253,13 +253,13 @@ public class PropertyRendererRegistry implements PropertyRendererFactory {
 
 		DefaultCellRenderer renderer = new DefaultCellRenderer();
 		registerRenderer(Object.class, renderer);
+		registerRenderer(char.class, renderer);
 		registerRenderer(Character.class, renderer);
 
 		// numbers
 		NumberRenderer numberRenderer = new NumberRenderer();
 		registerRenderer(byte.class, numberRenderer);
 		registerRenderer(Byte.class, numberRenderer);
-		registerRenderer(char.class, numberRenderer);
 		registerRenderer(double.class, numberRenderer);
 		registerRenderer(Double.class, numberRenderer);
 		registerRenderer(float.class, numberRenderer);

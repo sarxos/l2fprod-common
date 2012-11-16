@@ -1,7 +1,7 @@
 /**
- * @PROJECT.FULLNAME@ @VERSION@ License.
+ * L2FProd Common v9.2 License.
  *
- * Copyright @YEAR@ L2FProd.com
+ * Copyright 2005 - 2009 L2FProd.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,46 +18,49 @@
 package com.l2fprod.common.beans.editor;
 
 //import com.l2fprod.common.swing.JDirectoryChooser;
-import com.l2fprod.common.swing.UserPreferences;
-import com.l2fprod.common.util.ResourceManager;
-
 import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JFileChooser;
 
+import com.github.sarxos.l2fprod.sheet.editor.FileEditor;
+import com.l2fprod.common.swing.UserPreferences;
+import com.l2fprod.common.util.ResourceManager;
+
+
 /**
  * DirectoryPropertyEditor.<br>
- *
+ * 
  */
-public class DirectoryPropertyEditor extends FilePropertyEditor {
+public class DirectoryPropertyEditor extends FileEditor {
 
-  protected void selectFile() {
-    ResourceManager rm = ResourceManager.all(FilePropertyEditor.class);
+	@Override
+	protected void selectFile() {
+		ResourceManager rm = ResourceManager.all(FileEditor.class);
 
-    JFileChooser chooser = UserPreferences.getDefaultDirectoryChooser();
-    
-    chooser.setDialogTitle(rm.getString("DirectoryPropertyEditor.dialogTitle"));
-    chooser.setApproveButtonText(
-        rm.getString("DirectoryPropertyEditor.approveButtonText"));
-    chooser.setApproveButtonMnemonic(
-        rm.getChar("DirectoryPropertyEditor.approveButtonMnemonic"));
+		JFileChooser chooser = UserPreferences.getDefaultDirectoryChooser();
 
-    File oldFile = (File)getValue();
-    if (oldFile != null && oldFile.isDirectory()) {
-      try {
-        chooser.setCurrentDirectory(oldFile.getCanonicalFile());
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
-    
-    if (JFileChooser.APPROVE_OPTION == chooser.showOpenDialog(editor)) {
-      File newFile = chooser.getSelectedFile();
-      String text = newFile.getAbsolutePath();
-      textfield.setText(text);
-      firePropertyChange(oldFile, newFile);
-    }
-  }
-  
+		chooser.setDialogTitle(rm.getString("DirectoryPropertyEditor.dialogTitle"));
+		chooser.setApproveButtonText(
+		rm.getString("DirectoryPropertyEditor.approveButtonText"));
+		chooser.setApproveButtonMnemonic(
+		rm.getChar("DirectoryPropertyEditor.approveButtonMnemonic"));
+
+		File oldFile = (File) getValue();
+		if (oldFile != null && oldFile.isDirectory()) {
+			try {
+				chooser.setCurrentDirectory(oldFile.getCanonicalFile());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		if (JFileChooser.APPROVE_OPTION == chooser.showOpenDialog(editor)) {
+			File newFile = chooser.getSelectedFile();
+			String text = newFile.getAbsolutePath();
+			((FileEditorComponent) editor).setText(text);
+			firePropertyChange(oldFile, newFile);
+		}
+	}
+
 }

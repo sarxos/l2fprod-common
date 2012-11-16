@@ -1,7 +1,7 @@
 /**
- * @PROJECT.FULLNAME@ @VERSION@ License.
+ * L2FProd Common v9.2 License.
  *
- * Copyright @YEAR@ L2FProd.com
+ * Copyright 2005 - 2009 L2FProd.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,11 +35,11 @@ import java.util.Map;
 
 import com.github.sarxos.l2fprod.sheet.editor.BooleanEditor;
 import com.github.sarxos.l2fprod.sheet.editor.CharacterEditor;
+import com.github.sarxos.l2fprod.sheet.editor.ColorEditor;
 import com.github.sarxos.l2fprod.sheet.editor.DimensionEditor;
 import com.github.sarxos.l2fprod.sheet.editor.EnumEditor;
+import com.github.sarxos.l2fprod.sheet.editor.FileEditor;
 import com.github.sarxos.l2fprod.sheet.editor.NumberEditor;
-import com.l2fprod.common.beans.editor.ColorPropertyEditor;
-import com.l2fprod.common.beans.editor.FilePropertyEditor;
 import com.l2fprod.common.beans.editor.InsetsPropertyEditor;
 import com.l2fprod.common.beans.editor.JCalendarDatePropertyEditor;
 import com.l2fprod.common.beans.editor.RectanglePropertyEditor;
@@ -244,10 +244,10 @@ public class PropertyEditorRegistry implements PropertyEditorFactory {
 		registerEditor(boolean.class, BooleanEditor.class);
 		registerEditor(Boolean.class, BooleanEditor.class);
 
-		registerEditor(File.class, FilePropertyEditor.class);
+		registerEditor(File.class, FileEditor.class);
 
 		// awt object editors
-		registerEditor(Color.class, ColorPropertyEditor.class);
+		registerEditor(Color.class, ColorEditor.class);
 		registerEditor(Dimension.class, DimensionEditor.class);
 		registerEditor(Insets.class, InsetsPropertyEditor.class);
 		registerEditor(Rectangle.class, RectanglePropertyEditor.class);

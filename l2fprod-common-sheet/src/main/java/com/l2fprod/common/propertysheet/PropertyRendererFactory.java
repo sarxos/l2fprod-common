@@ -1,7 +1,7 @@
 /**
- * @PROJECT.FULLNAME@ @VERSION@ License.
+ * L2FProd Common v9.2 License.
  *
- * Copyright @YEAR@ L2FProd.com
+ * Copyright 2005 - 2009 L2FProd.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

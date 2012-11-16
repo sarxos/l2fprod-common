@@ -1,7 +1,7 @@
 /**
- * @PROJECT.FULLNAME@ @VERSION@ License.
+ * L2FProd Common v9.2 License.
  *
- * Copyright @YEAR@ L2FProd.com
+ * Copyright 2005 - 2009 L2FProd.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,34 +20,41 @@ package com.l2fprod.common.beans;
 import java.beans.BeanDescriptor;
 import java.util.MissingResourceException;
 
+
+
+
 /**
- * DefaultBeanDescriptor. <br>
- *  
+ * Default bean descriptor.
  */
-final class DefaultBeanDescriptor extends BeanDescriptor {
+public class DefaultBeanDescriptor extends BeanDescriptor {
 
-  private String displayName;
+	private String displayName;
 
-  public DefaultBeanDescriptor(BaseBeanInfo beanInfo) {
-    super(beanInfo.getType());
-    try {
-      setDisplayName(beanInfo.getResources().getString("beanName"));
-    } catch (MissingResourceException e) {
-      // this resource is not mandatory
-    }
-    try {
-      setShortDescription(beanInfo.getResources().getString("beanDescription"));
-    } catch (MissingResourceException e) {
-      // this resource is not mandatory
-    }
-  }
+	public DefaultBeanDescriptor(BaseBeanInfo info) {
 
-  public String getDisplayName() {
-    return displayName;
-  }
+		super(info.getType());
 
-  public void setDisplayName(String p_name) {
-    displayName = p_name;
-  }
+		try {
+			setDisplayName(info.getResources().getString("beanName"));
+		} catch (MissingResourceException e) {
+			// fall thru, this resource is not mandatory
+		}
+
+		try {
+			setShortDescription(info.getResources().getString("beanDescription"));
+		} catch (MissingResourceException e) {
+			// fall thru, this resource is not mandatory
+		}
+	}
+
+	@Override
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	@Override
+	public void setDisplayName(String name) {
+		displayName = name;
+	}
 
 }

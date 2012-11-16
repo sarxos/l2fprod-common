@@ -1,7 +1,7 @@
 /**
- * @PROJECT.FULLNAME@ @VERSION@ License.
+ * L2FProd Common v9.2 License.
  *
- * Copyright @YEAR@ L2FProd.com
+ * Copyright 2005 - 2009 L2FProd.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,8 +30,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 
+import com.github.sarxos.l2fprod.sheet.DefaultBeanBinder;
 import com.l2fprod.common.beans.BaseBeanInfo;
-import com.l2fprod.common.beans.SimpleBeanBinder;
 import com.l2fprod.common.beans.editor.ComboBoxPropertyEditor;
 import com.l2fprod.common.propertysheet.PropertySheet;
 import com.l2fprod.common.propertysheet.PropertySheetPanel;
@@ -71,7 +71,7 @@ public class PropertySheetPage1 extends JPanel {
 		add(sheet, "*");
 
 		// everytime a property change, update the sheet with it
-		new SimpleBeanBinder(data, sheet);
+		new DefaultBeanBinder(data, sheet);
 	}
 
 	public static class Bean {

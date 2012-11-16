@@ -1,7 +1,7 @@
 /**
- * @PROJECT.FULLNAME@ @VERSION@ License.
+ * L2FProd Common v9.2 License.
  *
- * Copyright @YEAR@ L2FProd.com
+ * Copyright 2005 - 2009 L2FProd.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -118,11 +118,10 @@ public class ExtendedPropertyDescriptor extends PropertyDescriptor {
 		writeMethod);
 	}
 
-	public static final Comparator BY_CATEGORY_COMPARATOR = new Comparator() {
+	public static final Comparator<PropertyDescriptor> BY_CATEGORY_COMPARATOR = new Comparator<PropertyDescriptor>() {
 
-		public int compare(Object o1, Object o2) {
-			PropertyDescriptor desc1 = (PropertyDescriptor) o1;
-			PropertyDescriptor desc2 = (PropertyDescriptor) o2;
+		@Override
+		public int compare(PropertyDescriptor desc1, PropertyDescriptor desc2) {
 
 			if (desc1 == null && desc2 == null) {
 				return 0;

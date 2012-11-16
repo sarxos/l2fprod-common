@@ -1,4 +1,4 @@
-package com.github.sarxos.l2fprod.util;
+package com.l2fprod.common.propertysheet;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -7,9 +7,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
-import java.util.Vector;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -28,16 +30,17 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
 
-public class ListProperties {
+@Deprecated
+public class ListProperties_REMOVE {
 
 	static class CustomTableModel extends AbstractTableModel {
 
-		Vector keys = new Vector();
+		private static final long serialVersionUID = -8352295145276923539L;
 
-		Vector values = new Vector();
+		private List<Object> keys = new ArrayList<Object>();
+		private List<Object> values = new ArrayList<Object>();
 
-		private static final String columnNames[] = { "Property String",
-		"Value" };
+		private static final String columnNames[] = { "Property String", "Value" };
 
 		@Override
 		public int getColumnCount() {
@@ -58,26 +61,22 @@ public class ListProperties {
 		public Object getValueAt(int row, int column) {
 			Object returnValue = null;
 			if (column == 0) {
-				returnValue = keys.elementAt(row);
+				returnValue = keys.get(row);
 			} else if (column == 1) {
-				returnValue = values.elementAt(row);
-
+				returnValue = values.get(row);
 			}
 			return returnValue;
 		}
 
 		public synchronized void uiDefaultsUpdate(UIDefaults defaults) {
-			Enumeration newKeys = defaults.keys();
-			keys.removeAllElements();
-			while (newKeys.hasMoreElements()) {
-				keys.addElement(newKeys.nextElement());
-			}
 
-			Enumeration newValues = defaults.elements();
-			values.removeAllElements();
-			while (newValues.hasMoreElements()) {
-				values.addElement(newValues.nextElement());
-			}
+			Enumeration<Object> newKeys = defaults.keys();
+			keys.clear();
+			keys.addAll(Collections.list(newKeys));
+
+			Enumeration<Object> newValues = defaults.elements();
+			values.clear();
+			values.addAll(Collections.list(newValues));
 
 			fireTableDataChanged();
 		}
@@ -143,9 +142,11 @@ public class ListProperties {
 
 class TableSorter extends TableMap implements TableModelListener {
 
-	int indexes[] = new int[0];
+	private static final long serialVersionUID = 6627171931468194200L;
 
-	Vector sortingColumns = new Vector();
+	private int indexes[] = new int[0];
+
+	private List<Object> sortingColumns = new ArrayList<Object>();
 
 	boolean ascending = true;
 
@@ -165,7 +166,8 @@ class TableSorter extends TableMap implements TableModelListener {
 	}
 
 	public int compareRowsByColumn(int row1, int row2, int column) {
-		Class type = model.getColumnClass(column);
+
+		Class<?> type = model.getColumnClass(column);
 		TableModel data = model;
 
 		// Check for nulls
@@ -247,7 +249,7 @@ class TableSorter extends TableMap implements TableModelListener {
 
 	public int compare(int row1, int row2) {
 		for (int level = 0, n = sortingColumns.size(); level < n; level++) {
-			Integer column = (Integer) sortingColumns.elementAt(level);
+			Integer column = (Integer) sortingColumns.get(level);
 			int result = compareRowsByColumn(row1, row2, column.intValue());
 			if (result != 0) {
 				return (ascending ? result : -result);
@@ -304,12 +306,6 @@ class TableSorter extends TableMap implements TableModelListener {
 		}
 	}
 
-	private void swap(int first, int second) {
-		int temp = indexes[first];
-		indexes[first] = indexes[second];
-		indexes[second] = temp;
-	}
-
 	@Override
 	public Object getValueAt(int row, int column) {
 		checkModel();
@@ -328,8 +324,8 @@ class TableSorter extends TableMap implements TableModelListener {
 
 	public void sortByColumn(int column, boolean ascending) {
 		this.ascending = ascending;
-		sortingColumns.removeAllElements();
-		sortingColumns.addElement(new Integer(column));
+		sortingColumns.clear();
+		sortingColumns.add(new Integer(column));
 		sort();
 		super.tableChanged(new TableModelEvent(this));
 	}
@@ -368,7 +364,8 @@ class TableHeaderSorter extends MouseAdapter {
 
 class TableMap extends AbstractTableModel implements TableModelListener {
 
-	TableModel model;
+	private static final long serialVersionUID = -2648081177216556320L;
+	protected TableModel model;
 
 	public TableModel getModel() {
 		return model;
@@ -385,7 +382,7 @@ class TableMap extends AbstractTableModel implements TableModelListener {
 	}
 
 	@Override
-	public Class getColumnClass(int column) {
+	public Class<?> getColumnClass(int column) {
 		return model.getColumnClass(column);
 	}
 

@@ -1,7 +1,7 @@
 /**
- * @PROJECT.FULLNAME@ @VERSION@ License.
+ * L2FProd Common v9.2 License.
  *
- * Copyright @YEAR@ L2FProd.com
+ * Copyright 2005 - 2009 L2FProd.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@ import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.Icon;
@@ -30,7 +29,6 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 import javax.swing.plaf.basic.BasicComboBoxEditor;
@@ -41,8 +39,6 @@ import javax.swing.plaf.basic.BasicComboBoxEditor;
  * 
  */
 public class ComboBoxPropertyEditor extends AbstractPropertyEditor {
-
-	private static final Border EMPTY_BORDER = BorderFactory.createEmptyBorder();
 
 	private Object oldValue;
 	private Icon[] icons;

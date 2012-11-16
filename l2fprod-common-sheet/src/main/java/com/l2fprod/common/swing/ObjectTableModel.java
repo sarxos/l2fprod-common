@@ -1,7 +1,7 @@
 /**
- * @PROJECT.FULLNAME@ @VERSION@ License.
+ * L2FProd Common v9.2 License.
  *
- * Copyright @YEAR@ L2FProd.com
+ * Copyright 2005 - 2009 L2FProd.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,11 +19,12 @@ package com.l2fprod.common.swing;
 
 import javax.swing.table.TableModel;
 
+
 /**
  * Implemented by TableModel which are more a list of objects than table.<br>
  */
 public interface ObjectTableModel extends TableModel {
 
-  Object getObject(int p_Row);
-  
+	Object getObject(int row);
+
 }

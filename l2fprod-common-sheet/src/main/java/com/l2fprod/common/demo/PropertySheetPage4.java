@@ -31,10 +31,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import com.github.sarxos.l2fprod.sheet.AnnotatedBeanInfo;
+import com.github.sarxos.l2fprod.sheet.DefaultBeanBinder;
 import com.github.sarxos.l2fprod.sheet.annotation.EnumValueInfo;
 import com.github.sarxos.l2fprod.sheet.annotation.PropertyInfo;
 import com.github.sarxos.l2fprod.sheet.editor.PercentageEditor;
-import com.l2fprod.common.beans.SimpleBeanBinder;
 import com.l2fprod.common.propertysheet.PropertySheet;
 import com.l2fprod.common.propertysheet.PropertySheetPanel;
 import com.l2fprod.common.swing.LookAndFeelTweaks;
@@ -230,7 +230,7 @@ public class PropertySheetPage4 extends JPanel {
 		sheet.setSortingProperties(true);
 		sheet.setRestoreToggleStates(true);
 
-		new SimpleBeanBinder(bean, sheet, new AnnotatedBeanInfo(Beanus.class));
+		new DefaultBeanBinder(bean, sheet, new AnnotatedBeanInfo(Beanus.class));
 
 		add(sheet);
 	}

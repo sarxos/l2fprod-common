@@ -4,7 +4,6 @@ import java.awt.Component;
 import java.io.Serializable;
 
 import javax.swing.JCheckBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
@@ -14,13 +13,14 @@ import com.github.sarxos.l2fprod.sheet.I18N;
 
 /**
  * Boolean value table cell renderer.
+ * 
+ * @author Bartosz Firyn (SarXos)
  */
 public class BooleanRenderer extends JPanel implements TableCellRenderer, Serializable {
 
 	private static final long serialVersionUID = 8848514762273327844L;
 
 	private JCheckBox checkbox = null;
-	private JLabel label = null;
 
 	public BooleanRenderer() {
 

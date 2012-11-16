@@ -34,6 +34,7 @@ public class SpinnerEditor extends AbstractPropertyEditor {
 		private static final long serialVersionUID = 11429722436474288L;
 
 		private JComponent component = null;
+		private boolean active = false;
 
 		public ContainerPanel(JComponent component) {
 
@@ -72,7 +73,14 @@ public class SpinnerEditor extends AbstractPropertyEditor {
 
 		@Override
 		public void focusGained(FocusEvent e) {
-			component.transferFocusDownCycle();
+			if (!active) {
+				// received focus for the first time, mark component as active
+				active = true;
+				component.transferFocusDownCycle();
+			} else {
+				// received focus back from cycle, finish edit
+				SpinnerEditor.this.firePropertyChange(oldValue, spinner.getValue());
+			}
 		}
 
 		@Override
@@ -101,19 +109,6 @@ public class SpinnerEditor extends AbstractPropertyEditor {
 				super.paint(g);
 			}
 		};
-
-		spinner.addFocusListener(new FocusListener() {
-
-			@Override
-			public void focusLost(FocusEvent e) {
-				System.out.println("spinner lost");
-				SpinnerEditor.this.firePropertyChange(oldValue, spinner.getValue());
-			}
-
-			@Override
-			public void focusGained(FocusEvent e) {
-			}
-		});
 
 		spinner.setBorder(BorderFactory.createEmptyBorder());
 		spinner.setOpaque(false);

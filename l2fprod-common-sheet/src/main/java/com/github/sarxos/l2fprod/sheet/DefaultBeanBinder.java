@@ -47,7 +47,7 @@ public class DefaultBeanBinder implements PropertyChangeListener {
 	}
 
 	public void unbind() {
-		sheet.removePropertyChangeListener(this);
+		sheet.removePropertySheetChangeListener(this);
 		sheet.setProperties(new Property[0]);
 	}
 
